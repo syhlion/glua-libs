@@ -21,3 +21,8 @@ go get github.com/vadv/gopher-lua-libs
 * [redis](/redis) access to redis
 
 
+## Thanks
+
+[vadv/gopher-lua-libs](https://github.com/vadv/gopher-lua-libs)
+
+
