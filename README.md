@@ -13,7 +13,7 @@ go get github.com/vadv/gopher-lua-libs
 
 * [crypto](/crypto) calculate md5, sha256 hash for string
 * [db](/db) access to databases
-* [httpclient](/httpclient) http.client && http.server
+* [httpclient](/httpclient) http.client
 * [ioutil](/ioutil) io/ioutil port
 * [json](/json) json implementation
 * [regexp](/regexp) regexp port
