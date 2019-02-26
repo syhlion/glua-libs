@@ -9,13 +9,7 @@ import (
 func parseReply(reply interface{}, L *lua.LState) (lv lua.LValue, err error) {
 
 	switch vv := reply.(type) {
-	case lua.LNumber:
-		lv = lua.LNumber(vv)
-	case lua.LBool:
-		lv = lua.LBool(vv)
-	case nil:
-		lv = lua.LNil
-	case lua.LString:
+	case []byte:
 		lv = lua.LString(vv)
 	default:
 		log.Printf("[ERROR] unknown type (value: `%#v`, converted: `%#v`)\n", reply, vv)
