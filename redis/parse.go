@@ -33,7 +33,7 @@ func parseReplys(replys []interface{}, L *lua.LState) (*lua.LTable, error) {
 		case []byte:
 			rows.Append(lua.LString(string(v.([]byte))))
 		default:
-			log.Printf("[ERROR] unknown type (value: `%#v`, converted: `%#v`)\n", v, vv)
+			log.Printf("[ERROR] unknown replys type (value: `%#v`, converted: `%#v`)\n", v, vv)
 			rows.Append(lua.LNil)
 		}
 	}
