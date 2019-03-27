@@ -5,13 +5,6 @@ import (
 	lua "github.com/yuin/gopher-lua"
 )
 
-const (
-	// max idle connections
-	MaxIdleConns = 1
-	// max open connections
-	MaxOpenConns = 1
-)
-
 type lTgBot interface {
 	constructor(string) (lTgBot, error)
 	getBot() *tgbotapi.BotAPI
@@ -20,8 +13,7 @@ type lTgBot interface {
 var tgBot = new(luaTgBot)
 
 func New(L *lua.LState) int {
-
-	token := L.CheckString(1)
+	token := L.CheckString(2)
 	result, err := tgBot.constructor(token)
 	if err != nil {
 		L.Push(lua.LNil)
@@ -37,6 +29,7 @@ func New(L *lua.LState) int {
 func checkBot(L *lua.LState, n int) lTgBot {
 	ud := L.CheckUserData(n)
 	if v, ok := ud.Value.(lTgBot); ok {
+
 		return v
 	}
 	L.ArgError(n, "telegram expected")
@@ -45,15 +38,18 @@ func checkBot(L *lua.LState, n int) lTgBot {
 
 func Send(L *lua.LState) int {
 	botInterface := checkBot(L, 1)
-	chatId := L.CheckInt64(2)
+	chatId := L.CheckNumber(2)
 	msgText := L.CheckString(3)
-	msg := tgbotapi.NewMessage(chatId, msgText)
+	msg := tgbotapi.NewMessage(int64(chatId), msgText)
 
 	bot := botInterface.getBot()
-	_, err := bot.Send(msg)
+	reply, err := bot.Send(msg)
 	if err != nil {
+		L.Push(lua.LNil)
 		L.Push(lua.LString(err.Error()))
-		return 1
+		return 2
 	}
-	return 1
+	L.Push(lua.LNumber(reply.MessageID))
+	L.Push(lua.LNil)
+	return 2
 }
